@@ -56,6 +56,10 @@ public:
 	 * @see UMetaCheatManager::AllCheatCommands */
 	virtual const FORCEINLINE TArray<FMetaCheatCommand>& GetAllCheatCommands() const override { return AllCheatCommands; }
 
+//++Ck
+    virtual APlayerController* GetOuterPlayerController() const override { return GetOuterAPlayerController(); };
+//--Ck
+
 protected:
 	/** Contains all cheat commands exposed by this cheat manager.
 	 * Is automatically saved into config file while in editor to have these commands available in builds where is no access to meta data. */

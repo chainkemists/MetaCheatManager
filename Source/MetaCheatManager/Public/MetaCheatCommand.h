@@ -30,6 +30,11 @@ struct METACHEATMANAGER_API FMetaCheatCommand
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FName CheatDescription = NAME_None;
 
+//++Ck
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool ExecuteOnServer = false;
+//--Ck
+
 	/** Returns true if this command contains correct data */
 	FORCEINLINE bool IsValid() const
 	{
