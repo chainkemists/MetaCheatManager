@@ -29,6 +29,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "C++")
 	virtual const TArray<FMetaCheatCommand>& GetAllCheatCommands() const = 0;
 
+//++Ck
+	UFUNCTION(BlueprintCallable, Category = "C++")
+    virtual APlayerController* GetOuterPlayerController() const = 0;
+//--Ck
+
 	/** It has to be bound to UConsole::RegisterConsoleAutoCompleteEntries to register the cheat in the console. */
 	virtual void RegisterAutoCompleteEntries(TArray<struct FAutoCompleteCommand>& OutCommands) const = 0;
 };
