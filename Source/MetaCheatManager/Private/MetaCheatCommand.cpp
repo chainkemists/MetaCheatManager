@@ -37,6 +37,11 @@ FMetaCheatCommand FMetaCheatCommand::Create(const UFunction* InFunction)
 		return EmptyCommand;
 	}
 
+//++Ck
+    static const FName ServerCheatMetaKey = TEXT("ServerCheat");
+    CheatCommand.ExecuteOnServer = InFunction->HasMetaData(ServerCheatMetaKey);
+//--Ck
+
 	CheatCommand.FunctionName = InFunction->GetFName();
 	CheatCommand.CheatDescription = FindCheatDescription(InFunction);
 	return CheatCommand;

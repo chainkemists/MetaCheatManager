@@ -24,11 +24,20 @@ void UMetaCheatManagerUtils::InitAllCheatCommands(const TScriptInterface<IMetaCh
 	// to have your cheat commands with custom Cheat Names in the packaged build as well, you don't need to do anything specific about it.
 	// Such solution is used because any metadata can be obtained only in the Editor, so we store it in the config file for the build.
 
-	if (!CheatManagerObj->HasAllFlags(RF_ClassDefaultObject))
-	{
-		// Do not init cheat commands for instances since we save them as default values into config file
-		return;
-	}
+//++Ck
+	// if (!CheatManagerObj->HasAllFlags(RF_ClassDefaultObject))
+	// {
+	// 	// Do not init cheat commands for instances since we save them as default values into config file
+	// 	return;
+	// }
+
+    UClass* NativeClass = CheatManagerObj->GetClass();
+
+    while (NativeClass && NativeClass->ClassGeneratedBy != nullptr)
+    {
+        NativeClass = NativeClass->GetSuperClass();
+    }
+//--Ck
 
 	if (!OutAllCheatCommands.IsEmpty())
 	{
@@ -36,7 +45,10 @@ void UMetaCheatManagerUtils::InitAllCheatCommands(const TScriptInterface<IMetaCh
 	}
 
 	// Find all cheat commands
-	for (TFieldIterator<UFunction> FunctionIt(CheatManagerObj->GetClass(), EFieldIteratorFlags::ExcludeSuper); FunctionIt; ++FunctionIt)
+//++Ck
+	// for (TFieldIterator<UFunction> FunctionIt(CheatManagerObj->GetClass(), EFieldIteratorFlags::ExcludeSuper); FunctionIt; ++FunctionIt)
+	for (TFieldIterator<UFunction> FunctionIt(NativeClass, EFieldIteratorFlags::ExcludeSuper); FunctionIt; ++FunctionIt)
+//--Ck
 	{
 		FMetaCheatCommand CheatCommand = FMetaCheatCommand::Create(*FunctionIt);
 		if (CheatCommand.IsValid())
@@ -103,6 +115,18 @@ bool UMetaCheatManagerUtils::TryProcessConsoleExec(const TScriptInterface<IMetaC
 	{
 		return false;
 	}
+
+//++Ck
+    if (CheatCommand.ExecuteOnServer)
+    {
+        APlayerController* MyPC = CheatManager->GetOuterPlayerController();
+        if (MyPC != nullptr && MyPC->GetLocalRole() != ROLE_Authority)
+        {
+            MyPC->ServerExec(Cmd);
+            return false;
+        }
+    }
+//--Ck
 
 	// Get the function name (YourCheatFunction) from the CheatName (Your.Cheat.Name)
 	// and append it with the value that was passed to the cheat to process the call
