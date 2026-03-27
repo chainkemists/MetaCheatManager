@@ -1,4 +1,4 @@
-﻿{
+{
 	"FileVersion": 3,
 	"Version": 1,
 	"VersionName": "1.0",
@@ -10,8 +10,9 @@
 	"DocsURL": "",
 	"MarketplaceURL": "",
 	"SupportURL": "mailto:janseliw@gmail.com",
-	"EngineVersion": "5.4",
-	"EnabledByDefault": true,
+	"EngineVersion": "5.5.0",
+	"Enabled": false,
+	"EnabledByDefault": false,
 	"CanContainContent": false,
 	"IsBetaVersion": false,
 	"Installed": false,
